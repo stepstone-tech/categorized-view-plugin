@@ -1,13 +1,19 @@
 package org.jenkinsci.plugins.categorizedview;
 
+import org.kohsuke.stapler.DataBoundConstructor;
+import org.kohsuke.stapler.QueryParameter;
+import org.kohsuke.stapler.StaplerRequest;
+import org.kohsuke.stapler.export.Exported;
+import org.kohsuke.stapler.export.ExportedBean;
+
 import hudson.Extension;
 import hudson.Util;
-import hudson.model.TopLevelItem;
-import hudson.model.ViewGroup;
 import hudson.model.Descriptor;
 import hudson.model.Descriptor.FormException;
 import hudson.model.ListView;
+import hudson.model.TopLevelItem;
 import hudson.model.ViewDescriptor;
+import hudson.model.ViewGroup;
 import hudson.util.CaseInsensitiveComparator;
 import hudson.util.DescribableList;
 import hudson.util.FormValidation;
@@ -21,19 +27,15 @@ import java.util.List;
 import java.util.TreeSet;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
-
 import javax.servlet.ServletException;
 
-import org.kohsuke.stapler.DataBoundConstructor;
-import org.kohsuke.stapler.QueryParameter;
-import org.kohsuke.stapler.StaplerRequest;
-
+@ExportedBean
 public class CategorizedJobsView extends ListView {
 	private List<GroupingRule> groupingRules = new ArrayList<GroupingRule>();
 	private String regexToIgnoreOnColorComputing = "";
 
 	private DescribableList<CategorizationCriteria, Descriptor<CategorizationCriteria>> categorizationCriteria;
-	
+
 	private transient CategorizedItemsBuilder categorizedItemsBuilder;
 	
 	@DataBoundConstructor
@@ -72,7 +74,8 @@ public class CategorizedJobsView extends ListView {
 		}
 		return this;
 	}
-	
+
+	@Exported(name = "groups")
 	public List<TopLevelItem> getGroupedItems() {
 		if (categorizationCriteria == null) 
 			categorizedItemsBuilder = new CategorizedItemsBuilder(super.getItems(), groupingRules, getRegexToIgnoreOnColorComputing());
@@ -162,5 +165,10 @@ public class CategorizedJobsView extends ListView {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Exported
+	public List<CategorizationCriteria> getGroupingRules(){
+		return categorizationCriteria;
 	}
 }

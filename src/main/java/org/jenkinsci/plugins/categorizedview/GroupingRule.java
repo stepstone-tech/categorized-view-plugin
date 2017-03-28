@@ -2,11 +2,14 @@ package org.jenkinsci.plugins.categorizedview;
 
 import org.apache.commons.lang.StringUtils;
 import org.kohsuke.stapler.DataBoundConstructor;
+import org.kohsuke.stapler.export.Exported;
+import org.kohsuke.stapler.export.ExportedBean;
 
 import hudson.Extension;
 import hudson.model.Descriptor;
 import hudson.model.TopLevelItem;
 
+@ExportedBean(defaultVisibility = 2)
 public class GroupingRule extends CategorizationCriteria
 {
 	private final String groupRegex;
@@ -62,11 +65,13 @@ public class GroupingRule extends CategorizationCriteria
 			return "Regex Grouping Rule";
 		}
 	}
-	
+
+	@Exported
 	public String getGroupRegex() {
 		return groupRegex;
 	}
 
+	@Exported
 	public String getNamingRule() {
 		return namingRule;
 	}

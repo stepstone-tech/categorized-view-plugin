@@ -25,14 +25,18 @@ import jenkins.model.Jenkins;
 
 import org.acegisecurity.AccessDeniedException;
 import org.joda.time.DateTime;
+import org.kohsuke.stapler.export.Exported;
+import org.kohsuke.stapler.export.ExportedBean;
 
 @SuppressWarnings("rawtypes")
+@ExportedBean(defaultVisibility = 2)
 public class GroupTopLevelItem  implements TopLevelItem{
 	private final String groupName;
 
 	private int nestLevel;
 	private final String groupClass;
 	protected List<TopLevelItem> nestedItems = new ArrayList<TopLevelItem>();
+
 
 	private String regexToIgnoreOnColorComputing;
 
@@ -44,6 +48,7 @@ public class GroupTopLevelItem  implements TopLevelItem{
 		this.specificCss.append("font-weight:bold;");
 	}
 
+	@Exported
 	public String getName() {
 		return groupName;
 	}
@@ -82,6 +87,7 @@ public class GroupTopLevelItem  implements TopLevelItem{
 	public void checkPermission(Permission permission) throws AccessDeniedException {
 	}
 
+	@Exported(name = "color")
 	public BallColor getIconColor() {
 		BallColor colorState = BallColor.NOTBUILT;
 		for (TopLevelItem item : getNestedItems()) {
@@ -244,6 +250,7 @@ public class GroupTopLevelItem  implements TopLevelItem{
 		return null;
 	}
 
+	@Exported(inline = true, visibility = 3)
 	public HealthReport getBuildHealth() {
 		HealthReport lowest = new HealthReport();
 		lowest.setScore(100);
@@ -308,9 +315,11 @@ public class GroupTopLevelItem  implements TopLevelItem{
 
 	StringBuilder specificCss = new StringBuilder();
 
+	@Exported(inline = true)
 	public List<TopLevelItem> getNestedItems() {
 		final Comparator<TopLevelItem> comparator = new TopLevelItemComparator();
 		Collections.sort(nestedItems,comparator);
 		return nestedItems;
 	}
+
 }
