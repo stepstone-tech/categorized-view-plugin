@@ -8,7 +8,7 @@
 	</parent>
 
 	<properties>
-		<jenkins.version>1.532.1</jenkins.version>
+		<jenkins.version>1.557</jenkins.version>
 	</properties>
 
 	<artifactId>categorized-view</artifactId>
