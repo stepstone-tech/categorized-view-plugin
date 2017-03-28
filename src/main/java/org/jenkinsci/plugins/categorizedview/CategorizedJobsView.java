@@ -75,7 +75,7 @@ public class CategorizedJobsView extends ListView {
 		return this;
 	}
 
-	@Exported(name = "groups")
+	@Exported(name = "categorizedItems")
 	public List<TopLevelItem> getGroupedItems() {
 		if (categorizationCriteria == null) 
 			categorizedItemsBuilder = new CategorizedItemsBuilder(super.getItems(), groupingRules, getRegexToIgnoreOnColorComputing());
@@ -167,7 +167,7 @@ public class CategorizedJobsView extends ListView {
 		}
 	}
 
-	@Exported
+	@Exported(name = "categorizationCriteria")
 	public List<CategorizationCriteria> getGroupingRules(){
 		return categorizationCriteria;
 	}

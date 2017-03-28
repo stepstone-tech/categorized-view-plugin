@@ -250,7 +250,6 @@ public class GroupTopLevelItem  implements TopLevelItem{
 		return null;
 	}
 
-	@Exported(inline = true, visibility = 3)
 	public HealthReport getBuildHealth() {
 		HealthReport lowest = new HealthReport();
 		lowest.setScore(100);
