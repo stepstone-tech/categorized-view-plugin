@@ -207,29 +207,16 @@ public class GroupTopLevelItem  implements TopLevelItem{
 	}
 
 	public String getUrl() {
-		StaplerRequest req = Stapler.getCurrentRequest();
-		if(req != null) {
-			String seed = Functions.getNearestAncestorUrl(req, this);
-			if(seed != null) {
-				return seed.substring(req.getContextPath().length() + 1) + '/';
-			}
-		}
-
-		return this.getParent().getUrl() + this.getShortUrl();
+		return "";
 	}
 
 	public String getShortUrl() {
-		String prefix = this.getParent().getUrlChildPrefix();
-		String subdir = Util.rawEncode(this.getName());
-		return prefix.equals(".")?subdir + '/':prefix + '/' + subdir + '/';
+		return "";
 	}
 
-
-
-	public Api getApi() {
+	public Api getApi(){
 		return new Api(this);
 	}
-
 
 	@Deprecated
 	public String getAbsoluteUrl() {
@@ -336,7 +323,7 @@ public class GroupTopLevelItem  implements TopLevelItem{
 
 	StringBuilder specificCss = new StringBuilder();
 
-	@Exported(inline = true)
+	@Exported
 	public List<TopLevelItem> getNestedItems() {
 		final Comparator<TopLevelItem> comparator = new TopLevelItemComparator();
 		Collections.sort(nestedItems,comparator);

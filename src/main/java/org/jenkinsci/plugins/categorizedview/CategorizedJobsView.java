@@ -87,11 +87,7 @@ public class CategorizedJobsView extends ListView {
 
 
 	public TopLevelItem getGroup(String name){
-		if (categorizationCriteria == null)
-			categorizedItemsBuilder = new CategorizedItemsBuilder(super.getItems(), groupingRules, getRegexToIgnoreOnColorComputing());
-		else
-			categorizedItemsBuilder = new CategorizedItemsBuilder(super.getItems(), categorizationCriteria.toList(), getRegexToIgnoreOnColorComputing());
-		for (TopLevelItem item : categorizedItemsBuilder.getRegroupedItems()){
+		for (TopLevelItem item : getGroupedItems()){
 			if (item.getName().equals(name)){
 				return item;
 			}
