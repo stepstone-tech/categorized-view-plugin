@@ -1,4 +1,7 @@
 package org.jenkinsci.plugins.categorizedview;
+import hudson.Functions;
+import hudson.Util;
+import hudson.model.Api;
 import hudson.model.BallColor;
 
 import hudson.model.HealthReport;
@@ -25,6 +28,8 @@ import jenkins.model.Jenkins;
 
 import org.acegisecurity.AccessDeniedException;
 import org.joda.time.DateTime;
+import org.kohsuke.stapler.Stapler;
+import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.export.Exported;
 import org.kohsuke.stapler.export.ExportedBean;
 
@@ -202,12 +207,29 @@ public class GroupTopLevelItem  implements TopLevelItem{
 	}
 
 	public String getUrl() {
-		return "";
+		StaplerRequest req = Stapler.getCurrentRequest();
+		if(req != null) {
+			String seed = Functions.getNearestAncestorUrl(req, this);
+			if(seed != null) {
+				return seed.substring(req.getContextPath().length() + 1) + '/';
+			}
+		}
+
+		return this.getParent().getUrl() + this.getShortUrl();
 	}
 
 	public String getShortUrl() {
-		return "";
+		String prefix = this.getParent().getUrlChildPrefix();
+		String subdir = Util.rawEncode(this.getName());
+		return prefix.equals(".")?subdir + '/':prefix + '/' + subdir + '/';
 	}
+
+
+
+	public Api getApi() {
+		return new Api(this);
+	}
+
 
 	@Deprecated
 	public String getAbsoluteUrl() {
